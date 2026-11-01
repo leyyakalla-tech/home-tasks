@@ -26,6 +26,7 @@
     --accent:#6fb59d; --on-accent:#10201a; --good:#6cc28f; --good-soft:#1c3326; --bad:#ec8a72; --bad-soft:#3a221c;
     --carry:#e5b55f; --carry-soft:#33291a; --wa:#25a244; --stage:#0d1210; --bar:#23261c; --bar-line:#3a3d2a; color-scheme: dark }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  [hidden] { display: none !important; }
   body { margin: 0; background: var(--bg); color: var(--ink);
     font: 17px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
   .phone { max-width: 480px; margin: 0 auto; background: var(--bg); min-height: 100vh; }
@@ -105,18 +106,31 @@ function start() {
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
   };
 
-  document.getElementById("title").textContent = CONFIG.HOUSEHOLD_NAME;
+  // A personal link (?who=talent) locks this phone to that person's list,
+  // and the lock is remembered so the home-screen app stays locked too.
+  // ?who=all removes the lock (for Leyya's own phone).
   const param = new URLSearchParams(location.search).get("who");
-  let personId = param || store.get("person", PEOPLE[0].id);
-  if (!PEOPLE.some(p => p.id === personId)) personId = PEOPLE[0].id;
+  const isPerson = id => PEOPLE.some(p => p.id === id);
+  if (param === "all") store.set("locked", null);
+  else if (isPerson(param)) store.set("locked", param);
+  const locked = isPerson(store.get("locked", null)) ? store.get("locked", null) : null;
+  let personId = locked || store.get("person", PEOPLE[0].id);
+  if (!isPerson(personId)) personId = PEOPLE[0].id;
 
   const whoEl = document.getElementById("who");
-  PEOPLE.forEach(p => {
-    const b = document.createElement("button");
-    b.type = "button"; b.textContent = p.name; b.dataset.id = p.id;
-    b.onclick = () => { personId = p.id; store.set("person", p.id); render(); };
-    whoEl.appendChild(b);
-  });
+  if (locked) {
+    whoEl.hidden = true;
+    const n = PEOPLE.find(p => p.id === locked).name;
+    document.getElementById("title").textContent = /^[A-Z]/.test(n) && !n.includes(" ") ? n + "'s tasks" : n;
+  } else {
+    document.getElementById("title").textContent = CONFIG.HOUSEHOLD_NAME;
+    PEOPLE.forEach(p => {
+      const b = document.createElement("button");
+      b.type = "button"; b.textContent = p.name; b.dataset.id = p.id;
+      b.onclick = () => { personId = p.id; store.set("person", p.id); render(); };
+      whoEl.appendChild(b);
+    });
+  }
 
   const person = () => PEOPLE.find(p => p.id === personId);
   const today = () => keyOf(now);
