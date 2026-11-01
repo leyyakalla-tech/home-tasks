@@ -113,6 +113,12 @@
   .arow.gone { background: var(--bad-soft); border-color: var(--bad); }
   .arow.gone .t { text-decoration: line-through; color: var(--muted); }
   .arow .del { color: var(--bad); border-color: var(--bad); background: transparent; }
+  .arow .btns { display: flex; gap: 6px; }
+  .arow .edit { color: var(--accent); border-color: var(--accent); background: transparent; }
+  .arow.changed { border-color: var(--carry); }
+  .arow.changed .chip { color: var(--carry); }
+  .arow.editing { outline: 3px solid var(--accent); outline-offset: 1px; }
+  .formbtns { display: flex; gap: 8px; flex-wrap: wrap; }
   .demo-note { font-size: 13px; color: var(--carry); background: var(--carry-soft); border-radius: 10px; padding: 8px 10px; }
 </style>
 </head>
@@ -120,7 +126,7 @@
 <div class="admin" id="admin">
   <section id="login" class="panel">
     <h1>Admin</h1>
-    <p class="muted">Log in to add or delete tasks. Changes reach Talent's and Sattiel's phones the next time they open the app.</p>
+    <p class="muted">Log in to add, edit or delete tasks. Changes reach Talent's and Sattiel's phones the next time they open the app.</p>
     
     <label for="repo">GitHub repository</label>
     <input type="text" id="repo" placeholder="your-username/home-tasks" autocomplete="off">
@@ -138,7 +144,7 @@
     <p id="saveMsg" class="msg" role="status"></p>
 
     <details class="panel" id="addPanel">
-      <summary>Add a task</summary>
+      <summary id="formTitle">Add a task</summary>
       <label for="aText">Task</label>
       <textarea id="aText" placeholder="e.g. Clean the braai and grid"></textarea>
       <label for="aSection">Heading it goes under</label>
@@ -167,7 +173,7 @@
         <label for="aOnce">Date</label>
         <input type="date" id="aOnce">
       </div>
-      <div><button type="button" id="addBtn" class="primary">Add task</button></div>
+      <div class="formbtns"><button type="button" id="addBtn" class="primary">Add task</button><button type="button" id="cancelEdit" hidden>Cancel edit</button></div>
       <p id="addMsg" class="msg" role="status"></p>
     </details>
 
@@ -187,7 +193,7 @@ function startAdmin(backend) {
   const pad = n => String(n).padStart(2, "0");
   const keyOf = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
   const $ = id => document.getElementById(id);
-  let data = null, who = null, removed = new Set(), added = new Set(), filterDate = "";
+  let data = null, who = null, removed = new Set(), added = new Set(), edited = new Set(), editing = null, filterDate = "";
 
   const saved = backend.loadLogin();
   $("repo").value = saved.repo || backend.defaultRepo();
@@ -207,7 +213,7 @@ function startAdmin(backend) {
       backend.saveLogin($("remember").checked ? { repo, token } : { repo });
       $("loginMsg").textContent = "";
       $("login").hidden = true; $("editor").hidden = false;
-      who = data.people[0].id; removed = new Set(); added = new Set();
+      who = data.people[0].id; removed = new Set(); added = new Set(); edited = new Set(); resetForm();
       buildWho(); render();
     } catch (e) {
       $("loginMsg").textContent = e.message || String(e);
@@ -216,7 +222,7 @@ function startAdmin(backend) {
   $("loginBtn").onclick = login;
   $("token").onkeydown = e => { if (e.key === "Enter") login(); };
   $("logout").onclick = () => {
-    if (removed.size || added.size) {
+    if (removed.size || added.size || edited.size) {
       if ($("logout").dataset.sure !== "1") { $("logout").dataset.sure = "1"; $("logout").textContent = "Unsaved changes – tap again to log out"; return; }
     }
     $("logout").dataset.sure = ""; $("logout").textContent = "Log out";
@@ -228,7 +234,7 @@ function startAdmin(backend) {
     $("aWho").innerHTML = "";
     data.people.forEach(p => {
       const b = document.createElement("button"); b.type = "button"; b.textContent = p.name; b.dataset.id = p.id;
-      b.onclick = () => { who = p.id; render(); };
+      b.onclick = () => { who = p.id; resetForm(); render(); };
       $("aWho").appendChild(b);
     });
   }
@@ -252,7 +258,7 @@ function startAdmin(backend) {
   }
 
   function updateDirty() {
-    const n = removed.size + added.size;
+    const n = removed.size + added.size + edited.size;
     $("dirty").textContent = n ? `${n} unsaved change${n > 1 ? "s" : ""}` : "No unsaved changes";
     $("savebar").classList.toggle("dirty", n > 0);
     $("saveBtn").disabled = n === 0;
@@ -273,14 +279,19 @@ function startAdmin(backend) {
         const h = document.createElement("h2"); h.className = "sec"; h.textContent = t.section || "Tasks"; list.appendChild(h);
       }
       const row = document.createElement("div");
-      row.className = "arow" + (removed.has(t) ? " gone" : "") + (added.has(t) ? " new" : "");
-      row.innerHTML = `<div class="txt"><div class="t"></div><span class="chip"></span></div><button type="button" class="del"></button>`;
+      row.className = "arow" + (removed.has(t) ? " gone" : "") + (added.has(t) ? " new" : "") + (edited.has(t) ? " changed" : "") + (editing === t ? " editing" : "");
+      row.innerHTML = `<div class="txt"><div class="t"></div><span class="chip"></span></div><div class="btns"><button type="button" class="edit">Edit</button><button type="button" class="del"></button></div>`;
       row.querySelector(".t").textContent = t.text;
-      row.querySelector(".chip").textContent = (added.has(t) ? "New · " : "") + whenText(t);
+      row.querySelector(".chip").textContent = (added.has(t) ? "New · " : edited.has(t) ? "Edited · " : "") + whenText(t);
+      const eb = row.querySelector(".edit");
+      eb.hidden = removed.has(t);
+      eb.setAttribute("aria-label", "Edit: " + t.text);
+      eb.onclick = () => startEdit(t);
       const b = row.querySelector(".del");
       b.textContent = removed.has(t) ? "Undo" : "Delete";
       b.setAttribute("aria-label", (removed.has(t) ? "Undo delete: " : "Delete: ") + t.text);
       b.onclick = () => {
+        if (editing === t) resetForm();
         if (added.has(t)) { p.tasks.splice(p.tasks.indexOf(t), 1); added.delete(t); }
         else removed.has(t) ? removed.delete(t) : removed.add(t);
         render();
@@ -299,33 +310,89 @@ function startAdmin(backend) {
     render();
   };
 
-  $("addBtn").onclick = () => {
+  function msg(text, ok) { $("addMsg").className = "msg" + (ok ? " ok" : ""); $("addMsg").textContent = text; }
+
+  function readForm() {
     const text = $("aText").value.trim();
     const section = $("aSection").value.trim() || "Extras";
     const when = document.querySelector('input[name=aWhen]:checked').value;
     const t = { section, text };
-    if (!text) { $("addMsg").className = "msg"; $("addMsg").textContent = "Type the task first."; return; }
+    if (!text) { msg("Type the task first."); return null; }
     if (when === "once") {
-      if (!$("aOnce").value) { $("addMsg").className = "msg"; $("addMsg").textContent = "Pick the date."; return; }
+      if (!$("aOnce").value) { msg("Pick the date."); return null; }
       t.date = $("aOnce").value;
     } else {
       if (when === "weeks") {
         const w = [...document.querySelectorAll(".wk:checked")].map(x => +x.value);
-        if (!w.length) { $("addMsg").className = "msg"; $("addMsg").textContent = "Tick at least one week."; return; }
+        if (!w.length) { msg("Tick at least one week."); return null; }
         t.week = w;
       }
       const m = [...document.querySelectorAll(".mo:checked")].map(x => +x.value);
       if (m.length && m.length < 12) t.months = m;
     }
-    const p = person();
+    return t;
+  }
+
+  function setWhen(v) {
+    document.querySelector(`input[name=aWhen][value=${v}]`).checked = true;
+    $("weeksBox").hidden = v !== "weeks"; $("onceBox").hidden = v !== "once"; $("monthsBox").hidden = v === "once";
+  }
+
+  function resetForm() {
+    editing = null;
+    $("aText").value = ""; $("aSection").value = ""; $("aOnce").value = "";
+    document.querySelectorAll(".wk, .mo").forEach(c => c.checked = false);
+    setWhen("every");
+    $("formTitle").textContent = "Add a task";
+    $("addBtn").textContent = "Add task";
+    $("cancelEdit").hidden = true;
+  }
+
+  function startEdit(t) {
+    editing = t;
+    $("aText").value = t.text; $("aSection").value = t.section || "";
+    document.querySelectorAll(".wk").forEach(c => c.checked = (t.week || []).includes(+c.value));
+    document.querySelectorAll(".mo").forEach(c => c.checked = (t.months || []).includes(+c.value));
+    $("aOnce").value = t.date || "";
+    setWhen(t.date ? "once" : t.week ? "weeks" : "every");
+    $("formTitle").textContent = "Edit task";
+    $("addBtn").textContent = "Update task";
+    $("cancelEdit").hidden = false;
+    msg("", true);
+    $("addPanel").open = true;
+    $("addPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+    $("aText").focus({ preventScroll: true });
+    render();
+  }
+
+  function placeInSection(p, t) {
     let idx = -1;
-    p.tasks.forEach((x, i) => { if (x.section === section) idx = i; });
+    p.tasks.forEach((x, i) => { if (x !== t && x.section === t.section) idx = i; });
     if (idx >= 0) p.tasks.splice(idx + 1, 0, t);
     else if (t.date) p.tasks.unshift(t);
     else p.tasks.push(t);
-    added.add(t);
-    $("aText").value = "";
-    $("addMsg").className = "msg ok"; $("addMsg").textContent = "Added. Tap Save to app to send it to the phones.";
+  }
+
+  $("cancelEdit").onclick = () => { resetForm(); msg(""); render(); };
+
+  $("addBtn").onclick = () => {
+    const f = readForm();
+    if (!f) return;
+    const p = person();
+    if (editing) {
+      const t = editing, oldSection = t.section;
+      ["text", "section", "date", "week", "months"].forEach(k => delete t[k]);
+      Object.assign(t, f);
+      if (t.section !== oldSection) { p.tasks.splice(p.tasks.indexOf(t), 1); placeInSection(p, t); }
+      if (!added.has(t)) edited.add(t);
+      resetForm();
+      msg("Updated. Tap Save to app to send it to the phones.", true);
+    } else {
+      placeInSection(p, f);
+      added.add(f);
+      $("aText").value = "";
+      msg("Added. Tap Save to app to send it to the phones.", true);
+    }
     render();
   };
 
@@ -334,7 +401,7 @@ function startAdmin(backend) {
     const out = { config: data.config, people: data.people.map(p => ({ ...p, tasks: p.tasks.filter(t => !removed.has(t)) })) };
     try {
       await backend.save(out);
-      data = out; removed = new Set(); added = new Set();
+      data = out; removed = new Set(); added = new Set(); edited = new Set(); resetForm();
       $("saveMsg").className = "msg ok"; $("saveMsg").textContent = "Saved. Phones get the new list next time the app opens.";
       render();
     } catch (e) {
