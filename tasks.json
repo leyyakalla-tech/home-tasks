@@ -1,0 +1,835 @@
+{
+ "config": {
+  "OWNER_WHATSAPP": "27000000000",
+  "HOUSEHOLD_NAME": "Home Tasks"
+ },
+ "people": [
+  {
+   "id": "talent",
+   "name": "Talent",
+   "tasks": [
+    {
+     "section": "1. When you arrive",
+     "text": "Message Leyya when you're at the gate. Use the pedestrian gate only, not the garage"
+    },
+    {
+     "section": "1. When you arrive",
+     "text": "Sort the washing loads and start the first load (sheets on cotton cycle, clothes on quick 30, silk by hand)"
+    },
+    {
+     "section": "1. When you arrive",
+     "text": "Open the blinds and draw the curtains"
+    },
+    {
+     "section": "2. Every visit",
+     "months": [
+      5,
+      6,
+      7,
+      8,
+      9
+     ],
+     "text": "Clean the fireplace inside, outside, underneath and behind, plus the glass. Move the big rug aside first. Keep the cold ash for Sattiel"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Main bedroom: floors, corners of floor and ceiling, behind the pedestals and dressing table, then the bathroom"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Clean all toilets, the steam shower and the main shower"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Empty the bins in every toilet"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Kitchen: clean all counters fully, every handle and cupboard door, stove and plates, microwave, outside of fridge"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Sweep, then vacuum every rug (gently on the big fireplace rug); include dining, lounge, kitchen and front-door rugs"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Sweep and mop the whole house, prayer room and spare bedroom (Dettol tile cleaner + 1 cap of Dettol)"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Wipe the leather lounge suite with a damp cloth (no soap)"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Use the cat-hair gadget on every chair: 8 dining, 3 fireplace, 2 prayer room, 2 kitchen stools"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Wipe all window sills and all light switches"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Dust the corners and ceiling edges with the microfibre duster"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Wipe the 2 brass tables by the fireplace"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Gym: sweep and mop, wipe equipment with damp cloth + Handy Andy, clean the mirrors"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Laundry: wipe all surfaces clean of fluff"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Cat litter by the front door: clear the mess with the spade (don't change the litter)"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Outside: sweep and mop front patio and the side by the dining room; dust and neaten the pool patio"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Clean the wooden patio table properly and dust the 2 benches"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Finish ALL the ironing (low heat on black and delicate items; don't burn anything)"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      1,
+      3
+     ],
+     "text": "Change Leyya's sheets (iron the fresh sheets before putting them on)"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      1
+     ],
+     "text": "Wash all windows: inside with plain water, outside with soap and water"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      1
+     ],
+     "text": "Clean every door and handle with a cloth + Handy Andy, especially along the handle side"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      2
+     ],
+     "text": "Deep clean the laundry: walls, cupboards, floor tiles, sink and laundry toilet"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      2
+     ],
+     "text": "Shine all brass (trays, pot holders, ash container) with Brasso and silver with Silvo"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      2
+     ],
+     "text": "Shine all mirrors in the house and wipe the sliding doors on the inside"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      3
+     ],
+     "text": "Deep clean kitchen cupboards: unpack, clean, repack (not the grocery cupboard)"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      3
+     ],
+     "text": "Deep clean the steam room"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      3
+     ],
+     "text": "Clean inside the fridge; put anything expired or off on the side counter"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      4
+     ],
+     "text": "Deep clean the prayer room and office, including under the bookshelf"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      4
+     ],
+     "text": "Spare bedroom: clean properly, check under the bed, remove cat hair from the bedding"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      4
+     ],
+     "text": "Remove lounge cushions, clean underneath, dust off the blankets outside"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      4
+     ],
+     "text": "Neaten the closet and hang anything that needs hanging"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      1
+     ],
+     "text": "Dust all light fittings and globes, and the aircon vents"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      2
+     ],
+     "text": "Scrub the grout in the kitchen, bathrooms and steam shower"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      2
+     ],
+     "text": "Run the washing machine empty with 2 cups of white vinegar; clean the dryer lint filter and vent"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      3
+     ],
+     "text": "Wipe skirting boards and the walls around light switches, frames and the staircase"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      3
+     ],
+     "text": "Condition the leather lounge suite with leather conditioner"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      4
+     ],
+     "text": "Dust or vacuum all curtains and blinds"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      4
+     ],
+     "text": "Wash duvets, blankets, and the cat blankets and beds"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      1
+     ],
+     "months": [
+      1,
+      4,
+      7,
+      10
+     ],
+     "text": "Clean the oven, stove burners and trays; degrease the extractor hood filter"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      2
+     ],
+     "months": [
+      2,
+      5,
+      8,
+      11
+     ],
+     "text": "Clear the sink, shower and bath drains"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      3
+     ],
+     "months": [
+      3,
+      6,
+      9,
+      12
+     ],
+     "text": "Vacuum and turn the mattresses; wash the pillows"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      4
+     ],
+     "months": [
+      1,
+      4,
+      7,
+      10
+     ],
+     "text": "Wipe down the walls in every room"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      2
+     ],
+     "months": [
+      2
+     ],
+     "text": "Empty, wipe and repack the grocery cupboard (bay leaves on the shelves keep insects away)"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      3
+     ],
+     "months": [
+      9
+     ],
+     "text": "Take down and wash the curtains (or tell Leyya which need sending out)"
+    },
+    {
+     "section": "3. This week's deep clean",
+     "week": [
+      1
+     ],
+     "months": [
+      9
+     ],
+     "text": "Remind Leyya: rugs are due for professional cleaning"
+    },
+    {
+     "section": "4. Before you leave",
+     "text": "Put all cleaning things away neatly in the laundry. No rags left in any room"
+    },
+    {
+     "section": "4. Before you leave",
+     "text": "Soak the kitchen cloths (left side of kitchen sink) and cleaning cloths (laundry sink)"
+    },
+    {
+     "section": "4. Before you leave",
+     "text": "Read this list again, then tap the WhatsApp button to report what wasn't finished"
+    },
+    {
+     "section": "4. Before you leave",
+     "text": "Leave by 4:30pm through the pedestrian gate"
+    }
+   ]
+  },
+  {
+   "id": "sattiel",
+   "name": "Sattiel",
+   "tasks": [
+    {
+     "section": "1. When you arrive",
+     "text": "Take the bins out (on bin day)"
+    },
+    {
+     "section": "1. When you arrive",
+     "text": "Water all pots, starting with the upstairs deck (use the watering jug if there are water restrictions)"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Clean the garden: remove dead leaves, dead flowers and buds from all beds and pots"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Give extra attention to struggling plants (cycads upstairs, bougainvilleas by the pool, new plants)"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Upstairs deck: sweep the astroturf, clear dead leaves, dust the couches"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Sweep and dust the front patio and pool patio (around benches and sauna)"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Sweep and mop all around the outside of the house and the gym (outside mop, pine gel or green Dettol tile cleaner)"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Sweep the garage"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Check the gym and sliding doors for ant gaps and seal with silicone"
+    },
+    {
+     "section": "2. Every visit",
+     "text": "Wash Leyya's car: outside with polish on paintwork and wheels, dust the mats (inside too when asked)"
+    },
+    {
+     "section": "3. This week's extra jobs",
+     "week": [
+      1,
+      3
+     ],
+     "text": "Treat the 2 cypress trees for aphids/fungus and check their support ropes are straight"
+    },
+    {
+     "section": "3. This week's extra jobs",
+     "week": [
+      2,
+      4
+     ],
+     "text": "Feed fertiliser to flowering pots and any plant that is struggling"
+    },
+    {
+     "section": "3. This week's extra jobs",
+     "week": [
+      1
+     ],
+     "text": "Clear the gutters and roofs (kitchen, garage, pedestrian door) of leaves"
+    },
+    {
+     "section": "3. This week's extra jobs",
+     "week": [
+      1
+     ],
+     "text": "Empty the sumps of water and sludge; clear the drains and French drains"
+    },
+    {
+     "section": "3. This week's extra jobs",
+     "week": [
+      2
+     ],
+     "text": "Run the generator for 15 minutes and check the battery is charged"
+    },
+    {
+     "section": "3. This week's extra jobs",
+     "week": [
+      2
+     ],
+     "text": "Check sprinklers and irrigation: no leaks, nothing spraying furniture or tiles"
+    },
+    {
+     "section": "3. This week's extra jobs",
+     "week": [
+      2
+     ],
+     "text": "Check water pipes for leaks, especially the pool patio and above the kitchen"
+    },
+    {
+     "section": "3. This week's extra jobs",
+     "week": [
+      3
+     ],
+     "text": "Trim and shape: bougainvillea hedge, purple and white bushes (round), ground cover, creepers off the screens"
+    },
+    {
+     "section": "3. This week's extra jobs",
+     "week": [
+      3
+     ],
+     "text": "Train the jasmine and creeping rose onto the strings"
+    },
+    {
+     "section": "3. This week's extra jobs",
+     "week": [
+      3
+     ],
+     "text": "Make sure all pots drain: holes drilled and stones at the bottom"
+    },
+    {
+     "section": "3. This week's extra jobs",
+     "week": [
+      4
+     ],
+     "text": "Pool: check the level (2 tiles from the top) and the creepy crawly"
+    },
+    {
+     "section": "3. This week's extra jobs",
+     "week": [
+      2
+     ],
+     "text": "Wash the wheelie bins and indoor bins inside and out"
+    },
+    {
+     "section": "3. This week's extra jobs",
+     "week": [
+      4
+     ],
+     "text": "Check the catios, cat shelves and roof netting; fix anything loose"
+    },
+    {
+     "section": "3. This week's extra jobs",
+     "week": [
+      4
+     ],
+     "text": "Neaten the garage and tool shed; put aside anything to throw away for Leyya to check"
+    },
+    {
+     "section": "3. This week's extra jobs",
+     "week": [
+      4
+     ],
+     "text": "Look around the house and report anything that needs fixing or plumbing"
+    },
+    {
+     "section": "4. Pool",
+     "months": [
+      9,
+      10,
+      11,
+      12,
+      1,
+      2,
+      3,
+      4
+     ],
+     "text": "Test pH (7.2–7.6) and chlorine (1–3), and adjust"
+    },
+    {
+     "section": "4. Pool",
+     "months": [
+      5,
+      6,
+      7,
+      8
+     ],
+     "week": [
+      1,
+      3
+     ],
+     "text": "Test pH (7.2–7.6) and chlorine (1–3), and adjust"
+    },
+    {
+     "section": "4. Pool",
+     "text": "Empty the skimmer and pump baskets; skim the surface"
+    },
+    {
+     "section": "4. Pool",
+     "text": "Backwash 2–3 minutes, rinse 1 minute, back to filter"
+    },
+    {
+     "section": "4. Pool",
+     "text": "Brush the walls, steps and tile line"
+    },
+    {
+     "section": "4. Pool",
+     "months": [
+      9,
+      10,
+      11,
+      12,
+      1,
+      2,
+      3,
+      4
+     ],
+     "text": "After a storm or heavy use: shock dose in the evening and run the pump"
+    },
+    {
+     "section": "5. Lawn",
+     "months": [
+      10,
+      11,
+      12,
+      1,
+      2,
+      3
+     ],
+     "text": "Mow the lawn"
+    },
+    {
+     "section": "5. Lawn",
+     "months": [
+      9,
+      10,
+      11,
+      12,
+      1,
+      2,
+      3,
+      4
+     ],
+     "week": [
+      1
+     ],
+     "text": "Edge the lawn borders"
+    },
+    {
+     "section": "5. Lawn",
+     "months": [
+      9,
+      11,
+      1
+     ],
+     "week": [
+      1
+     ],
+     "text": "Feed the lawn (LAN or 5:1:5) and water it in"
+    },
+    {
+     "section": "5. Lawn",
+     "months": [
+      12,
+      1,
+      2
+     ],
+     "week": [
+      3
+     ],
+     "text": "Check the lawn for grubs: brown patches that lift easily, birds pecking"
+    },
+    {
+     "section": "5. Lawn",
+     "months": [
+      3
+     ],
+     "week": [
+      2
+     ],
+     "text": "Scarify (rake out thatch) and aerate the lawn"
+    },
+    {
+     "section": "5. Lawn",
+     "months": [
+      4
+     ],
+     "week": [
+      1
+     ],
+     "text": "Autumn lawn feed (potassium-rich)"
+    },
+    {
+     "section": "5. Lawn",
+     "months": [
+      5
+     ],
+     "week": [
+      4
+     ],
+     "text": "Last mow of the season at about 40mm"
+    },
+    {
+     "section": "5. Lawn",
+     "months": [
+      6,
+      7,
+      8
+     ],
+     "week": [
+      1,
+      4
+     ],
+     "text": "Water the dormant lawn (about every 3 weeks); stay off frosted grass"
+    },
+    {
+     "section": "6. Seasonal",
+     "months": [
+      7,
+      8
+     ],
+     "text": "Prune the roses, including the creeping rose (finish by mid-August)"
+    },
+    {
+     "section": "6. Seasonal",
+     "months": [
+      8
+     ],
+     "week": [
+      3
+     ],
+     "text": "Main hard prune of the bougainvilleas (after the last frost)"
+    },
+    {
+     "section": "6. Seasonal",
+     "months": [
+      8,
+      9
+     ],
+     "week": [
+      4
+     ],
+     "text": "Mulch the beds with a thick layer of compost after pruning"
+    },
+    {
+     "section": "6. Seasonal",
+     "months": [
+      8,
+      9
+     ],
+     "week": [
+      2
+     ],
+     "text": "Feed the azaleas as they come into flower"
+    },
+    {
+     "section": "6. Seasonal",
+     "months": [
+      9,
+      10
+     ],
+     "week": [
+      1
+     ],
+     "text": "Before the storms: flush gutters and downpipes with the hose, check joints and brackets for leaks"
+    },
+    {
+     "section": "6. Seasonal",
+     "months": [
+      9
+     ],
+     "week": [
+      3
+     ],
+     "text": "Run the whole irrigation system and fix leaks before summer"
+    },
+    {
+     "section": "6. Seasonal",
+     "months": [
+      6,
+      7
+     ],
+     "week": [
+      2
+     ],
+     "text": "Service the lawnmower and clean and sharpen garden tools"
+    },
+    {
+     "section": "6. Seasonal",
+     "months": [
+      5
+     ],
+     "week": [
+      3,
+      4
+     ],
+     "text": "Before frost: wrap the ferns, tree ferns, philodendrons and other tender plants in frost cloth; move tender pots under cover"
+    },
+    {
+     "section": "6. Seasonal",
+     "months": [
+      6,
+      7,
+      8
+     ],
+     "text": "Check frost covers are secure; cover anything exposed before cold nights"
+    },
+    {
+     "section": "6. Seasonal",
+     "months": [
+      6,
+      7,
+      8
+     ],
+     "text": "Water in the morning, not the afternoon, so plants aren't wet overnight"
+    },
+    {
+     "section": "6. Seasonal",
+     "months": [
+      9
+     ],
+     "week": [
+      1,
+      2
+     ],
+     "text": "Remove the frost covers, cut back frost-damaged leaves, and store the cloth dry"
+    },
+    {
+     "section": "6. Seasonal",
+     "months": [
+      5,
+      6,
+      7,
+      8,
+      9
+     ],
+     "text": "Bring firewood bags into the storeroom by the fireplace"
+    },
+    {
+     "section": "6. Seasonal",
+     "months": [
+      5,
+      6,
+      7,
+      8,
+      9
+     ],
+     "text": "Keep only dry, cold ash in the HTH buckets with lids for the garden; throw away wet ash"
+    },
+    {
+     "section": "7. Before you leave",
+     "text": "Bring the bins back in and store them with the lids facing the door"
+    },
+    {
+     "section": "7. Before you leave",
+     "text": "If you drilled, clean up (always use a packet and the dustpan when drilling)"
+    },
+    {
+     "section": "7. Before you leave",
+     "text": "Tap the WhatsApp button to report what wasn't finished"
+    }
+   ]
+  },
+  {
+   "id": "cats",
+   "name": "Cat sitting",
+   "tasks": [
+    {
+     "section": "Each visit",
+     "text": "Fill the water bowls to the top with fresh water"
+    },
+    {
+     "section": "Each visit",
+     "text": "Dry food: just enough to cover the bottom of each bowl (1 cup split across 3 bowls)"
+    },
+    {
+     "section": "Each visit",
+     "text": "Wet food: one flat teaspoon each, once a day"
+    },
+    {
+     "section": "Each visit",
+     "text": "Clean both litter boxes (front door and spare bathroom); only change litter if very bad"
+    },
+    {
+     "section": "Each visit",
+     "text": "Check the house for pee or mess and clean with Jik or Domestos"
+    },
+    {
+     "section": "Each visit",
+     "text": "Check for water leaks or anything wrong in the house"
+    },
+    {
+     "section": "Each visit",
+     "text": "If it's very cold, check the electric blanket is on"
+    },
+    {
+     "section": "Each visit",
+     "text": "Give them some love (Lucy especially)"
+    },
+    {
+     "section": "Each visit",
+     "text": "Tap the WhatsApp button so Leyya knows the cats are fed"
+    }
+   ]
+  }
+ ]
+}

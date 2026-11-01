@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Home Tasks Admin</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#2f5d50">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+  :root {
+    --bg: #f6f3ec; --card: #ffffff; --ink: #1f2a26; --muted: #66716b;
+    --accent: #2f5d50; --on-accent: #ffffff; --line: #e4e0d6;
+    --good: #2f7d4f; --good-soft: #e3f1e7; --bad: #b5452f; --bad-soft: #f8e4de;
+    --carry: #8a5a12; --carry-soft: #fbf0d9;
+    --wa: #1f8f3c; --stage: #e9e4d8; --bar: #fffbe9; --bar-line: #e7dcae;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg:#141a18; --card:#1e2622; --ink:#eef2ef; --muted:#9aa59f; --line:#2c3631;
+    --accent:#6fb59d; --on-accent:#10201a; --good:#6cc28f; --good-soft:#1c3326; --bad:#ec8a72; --bad-soft:#3a221c;
+    --carry:#e5b55f; --carry-soft:#33291a; --wa:#25a244; --stage:#0d1210; --bar:#23261c; --bar-line:#3a3d2a; color-scheme: dark } }
+  :root[data-theme="dark"] {
+    --bg:#141a18; --card:#1e2622; --ink:#eef2ef; --muted:#9aa59f; --line:#2c3631;
+    --accent:#6fb59d; --on-accent:#10201a; --good:#6cc28f; --good-soft:#1c3326; --bad:#ec8a72; --bad-soft:#3a221c;
+    --carry:#e5b55f; --carry-soft:#33291a; --wa:#25a244; --stage:#0d1210; --bar:#23261c; --bar-line:#3a3d2a; color-scheme: dark }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font: 17px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .phone { max-width: 480px; margin: 0 auto; background: var(--bg); min-height: 100vh; }
+  header { padding: 20px 16px 8px; }
+  h1 { margin: 0; font-size: 26px; text-wrap: balance; }
+  .date { color: var(--muted); margin-top: 2px; }
+  .who { display: flex; gap: 8px; padding: 12px 16px; }
+  .who button { flex: 1; min-width: 0; padding: 12px 6px; font-family: inherit; font-weight: 600; font-size: 16px; line-height: 1.2; border-radius: 14px;
+    border: 2px solid var(--accent); background: var(--card); color: var(--accent); cursor: pointer; }
+  .who button.on { background: var(--accent); color: var(--on-accent); }
+  .progress { margin: 4px 16px 4px; }
+  .bar { height: 10px; background: var(--line); border-radius: 99px; overflow: hidden; display: flex; }
+  .bar .g { background: var(--good); } .bar .b { background: var(--bad); }
+  .bar > div { transition: width .3s; }
+  .count { color: var(--muted); font-size: 15px; margin-top: 6px; font-variant-numeric: tabular-nums; display: flex; gap: 12px; flex-wrap: wrap; }
+  .count b { font-weight: 600; } .count .cg { color: var(--good); } .count .cb { color: var(--bad); }
+  ul { list-style: none; margin: 0; padding: 0 16px; }
+  h2.sec { font-size: 14px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 18px 4px 8px; }
+  h2.sec.carry { color: var(--carry); }
+  li { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 13px 14px; margin-bottom: 10px;
+    display: grid; gap: 10px; }
+  li.is-done { border-color: var(--good); background: var(--good-soft); }
+  li.is-not { border-color: var(--bad); background: var(--bad-soft); }
+  li.carried { border-left: 5px solid var(--carry); }
+  .tag { display: inline-block; font-size: 12px; font-weight: 600; color: var(--carry); background: var(--carry-soft);
+    border-radius: 99px; padding: 2px 8px; margin-bottom: 4px; }
+  .choice { display: flex; gap: 8px; }
+  .choice label { flex: 1; position: relative; cursor: pointer; }
+  .choice input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .choice span { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 6px; border-radius: 10px;
+    border: 2px solid var(--line); font-weight: 600; font-size: 16px; color: var(--muted); background: var(--card); }
+  .choice span::before { content: ""; width: 18px; height: 18px; border-radius: 50%; border: 2px solid currentColor; flex: none; }
+  .choice .yes input:checked + span { border-color: var(--good); color: var(--good); }
+  .choice .no input:checked + span { border-color: var(--bad); color: var(--bad); }
+  .choice input:checked + span::before { background: currentColor; box-shadow: inset 0 0 0 3px var(--card); }
+  .choice input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .notes { padding: 6px 16px 16px; }
+  .notes label { font-weight: 600; display: block; margin-bottom: 6px; }
+  textarea { width: 100%; min-height: 80px; border-radius: 14px; border: 1px solid var(--line);
+    padding: 12px; font: inherit; background: var(--card); color: var(--ink); }
+  .sendwrap { position: sticky; bottom: 0; padding: 12px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+    background: linear-gradient(transparent, var(--bg) 30%); }
+  .send { width: 100%; padding: 17px; font-family: inherit; font-weight: 700; font-size: 18px; border: 0; border-radius: 16px;
+    background: var(--wa); color: #fff; cursor: pointer; }
+  .send:focus-visible, .who button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { .bar > div { transition: none; } }
+
+  .admin { max-width: 640px; margin: 0 auto; background: var(--bg); min-height: 100vh;
+    padding-block: 20px 60px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .admin h1 { margin: 0; font-size: 26px; }
+  .admin .muted { color: var(--muted); font-size: 15px; }
+  .admin .panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 10px; }
+  .admin label { font-weight: 600; font-size: 15px; }
+  .admin label.inline { display: flex; gap: 8px; align-items: center; font-weight: 400; }
+  .admin input[type=text], .admin input[type=password], .admin input[type=date], .admin textarea, .admin select {
+    font: inherit; font-size: 16px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--bg); color: var(--ink); width: 100%; min-width: 0; }
+  .admin textarea { min-height: 70px; }
+  .admin button { font-family: inherit; font-size: 15px; font-weight: 600; border-radius: 10px; padding: 9px 14px; cursor: pointer;
+    border: 1.5px solid var(--line); background: var(--card); color: var(--ink); }
+  .admin button.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .admin button:disabled { opacity: .45; cursor: default; }
+  .admin button:focus-visible, .admin input:focus-visible, .admin summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .admin .msg { margin: 0; font-size: 14px; color: var(--bad); min-height: 1em; }
+  .admin .msg.ok { color: var(--good); }
+  .admin .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 8px; }
+  .admin .who { padding: 8px 0; }
+  .savebar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; display: flex; justify-content: space-between; align-items: center;
+    gap: 12px; flex-wrap: wrap; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; margin: 8px 0 12px; }
+  .savebar.dirty { border-color: var(--carry); background: var(--carry-soft); }
+  .savebar span { font-size: 15px; font-weight: 600; }
+  details.panel summary { font-weight: 700; cursor: pointer; }
+  .opts { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+  .opts label { font-weight: 400; display: flex; gap: 6px; align-items: center; }
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0; font-size: 15px; }
+  .tools input[type=date] { width: auto; }
+  .arow { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; background: var(--card);
+    border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; }
+  .arow .txt { min-width: 0; }
+  .arow .chip { display: inline-block; margin-top: 4px; font-size: 12px; font-weight: 600; color: var(--muted);
+    background: var(--bg); border: 1px solid var(--line); border-radius: 99px; padding: 2px 8px; }
+  .arow.new { border-color: var(--good); }
+  .arow.new .chip { color: var(--good); }
+  .arow.gone { background: var(--bad-soft); border-color: var(--bad); }
+  .arow.gone .t { text-decoration: line-through; color: var(--muted); }
+  .arow .del { color: var(--bad); border-color: var(--bad); background: transparent; }
+  .demo-note { font-size: 13px; color: var(--carry); background: var(--carry-soft); border-radius: 10px; padding: 8px 10px; }
+</style>
+</head>
+<body>
+<div class="admin" id="admin">
+  <section id="login" class="panel">
+    <h1>Admin</h1>
+    <p class="muted">Log in to add or delete tasks. Changes reach Talent's and Sattiel's phones the next time they open the app.</p>
+    
+    <label for="repo">GitHub repository</label>
+    <input type="text" id="repo" placeholder="your-username/home-tasks" autocomplete="off">
+    <label for="token">GitHub key</label>
+    <input type="password" id="token" autocomplete="off" placeholder="github_pat_…">
+    <label class="inline"><input type="checkbox" id="remember" checked> Keep me logged in on this device</label>
+    <div><button type="button" id="loginBtn" class="primary">Log in</button></div>
+    <p id="loginMsg" class="msg" role="status"></p>
+  </section>
+
+  <section id="editor" hidden>
+    <div class="topbar"><h1>Admin</h1><button type="button" id="logout">Log out</button></div>
+    <div class="who" id="aWho"></div>
+    <div class="savebar" id="savebar"><span id="dirty">No unsaved changes</span><button type="button" id="saveBtn" class="primary" disabled>Save to app</button></div>
+    <p id="saveMsg" class="msg" role="status"></p>
+
+    <details class="panel" id="addPanel">
+      <summary>Add a task</summary>
+      <label for="aText">Task</label>
+      <textarea id="aText" placeholder="e.g. Clean the braai and grid"></textarea>
+      <label for="aSection">Heading it goes under</label>
+      <input type="text" id="aSection" list="sections" autocomplete="off">
+      <datalist id="sections"></datalist>
+      <label>When</label>
+      <div class="opts" role="radiogroup">
+        <label><input type="radio" name="aWhen" value="every" checked> Every visit</label>
+        <label><input type="radio" name="aWhen" value="weeks"> Certain weeks of the month</label>
+        <label><input type="radio" name="aWhen" value="once"> One day only</label>
+      </div>
+      <div id="weeksBox" hidden>
+        <label>Weeks</label>
+        <div class="opts">
+          <label><input type="checkbox" class="wk" value="1"> 1st–7th</label>
+          <label><input type="checkbox" class="wk" value="2"> 8th–14th</label>
+          <label><input type="checkbox" class="wk" value="3"> 15th–21st</label>
+          <label><input type="checkbox" class="wk" value="4"> 22nd–end</label>
+        </div>
+      </div>
+      <div id="monthsBox">
+        <label>Months (leave empty for all year)</label>
+        <div class="opts" id="monthOpts"></div>
+      </div>
+      <div id="onceBox" hidden>
+        <label for="aOnce">Date</label>
+        <input type="date" id="aOnce">
+      </div>
+      <div><button type="button" id="addBtn" class="primary">Add task</button></div>
+      <p id="addMsg" class="msg" role="status"></p>
+    </details>
+
+    <div class="tools">
+      <label for="aDate">Show only what appears on</label>
+      <input type="date" id="aDate">
+      <button type="button" id="showAll">Show all</button>
+      <button type="button" id="cleanup">Remove past one-day tasks</button>
+    </div>
+    <div id="aList"></div>
+  </section>
+</div>
+<script>
+
+function startAdmin(backend) {
+  const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const pad = n => String(n).padStart(2, "0");
+  const keyOf = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  const $ = id => document.getElementById(id);
+  let data = null, who = null, removed = new Set(), added = new Set(), filterDate = "";
+
+  const saved = backend.loadLogin();
+  $("repo").value = saved.repo || backend.defaultRepo();
+  if (saved.token) $("token").value = saved.token;
+
+  $("monthOpts").innerHTML = MONTHS.map((m, i) => `<label><input type="checkbox" class="mo" value="${i+1}"> ${m}</label>`).join("");
+  document.querySelectorAll('input[name=aWhen]').forEach(r => r.onchange = () => {
+    const v = document.querySelector('input[name=aWhen]:checked').value;
+    $("weeksBox").hidden = v !== "weeks"; $("onceBox").hidden = v !== "once"; $("monthsBox").hidden = v === "once";
+  });
+
+  async function login() {
+    const repo = $("repo").value.trim(), token = $("token").value.trim();
+    $("loginMsg").className = "msg"; $("loginMsg").textContent = "Logging in…";
+    try {
+      data = await backend.load(repo, token);
+      backend.saveLogin($("remember").checked ? { repo, token } : { repo });
+      $("loginMsg").textContent = "";
+      $("login").hidden = true; $("editor").hidden = false;
+      who = data.people[0].id; removed = new Set(); added = new Set();
+      buildWho(); render();
+    } catch (e) {
+      $("loginMsg").textContent = e.message || String(e);
+    }
+  }
+  $("loginBtn").onclick = login;
+  $("token").onkeydown = e => { if (e.key === "Enter") login(); };
+  $("logout").onclick = () => {
+    if (removed.size || added.size) {
+      if ($("logout").dataset.sure !== "1") { $("logout").dataset.sure = "1"; $("logout").textContent = "Unsaved changes – tap again to log out"; return; }
+    }
+    $("logout").dataset.sure = ""; $("logout").textContent = "Log out";
+    backend.saveLogin({ repo: $("repo").value.trim() }); $("token").value = "";
+    $("editor").hidden = true; $("login").hidden = false;
+  };
+
+  function buildWho() {
+    $("aWho").innerHTML = "";
+    data.people.forEach(p => {
+      const b = document.createElement("button"); b.type = "button"; b.textContent = p.name; b.dataset.id = p.id;
+      b.onclick = () => { who = p.id; render(); };
+      $("aWho").appendChild(b);
+    });
+  }
+  const person = () => data.people.find(p => p.id === who);
+
+  function whenText(t) {
+    if (t.date) return "One day only: " + new Date(t.date + "T00:00").toLocaleDateString("en-ZA", { day: "numeric", month: "short", year: "numeric" }) + (t.date < keyOf(new Date()) ? " (past)" : "");
+    const parts = [];
+    if (Array.isArray(t.days)) parts.push(t.days.join(", "));
+    if (t.week) parts.push("Week " + t.week.join(" & "));
+    if (t.months) parts.push(t.months.length === 12 ? "All year" : t.months.map(m => MONTHS[m-1]).join(" "));
+    return parts.length ? parts.join(" · ") : "Every visit";
+  }
+  function showsOn(t, d) {
+    const wk = Math.min(4, Math.ceil(d.getDate() / 7)), m = d.getMonth() + 1;
+    if (t.date) return t.date === keyOf(d);
+    if (Array.isArray(t.days) && !t.days.includes(["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][d.getDay()])) return false;
+    if (t.week && !t.week.includes(wk)) return false;
+    if (t.months && !t.months.includes(m)) return false;
+    return true;
+  }
+
+  function updateDirty() {
+    const n = removed.size + added.size;
+    $("dirty").textContent = n ? `${n} unsaved change${n > 1 ? "s" : ""}` : "No unsaved changes";
+    $("savebar").classList.toggle("dirty", n > 0);
+    $("saveBtn").disabled = n === 0;
+  }
+
+  function render() {
+    [...$("aWho").children].forEach(b => b.classList.toggle("on", b.dataset.id === who));
+    const p = person();
+    $("sections").innerHTML = [...new Set(p.tasks.map(t => t.section).filter(Boolean))].map(s => `<option value="${s.replace(/"/g, "&quot;")}">`).join("");
+    const list = $("aList"); list.innerHTML = "";
+    const d = filterDate ? new Date(filterDate + "T00:00") : null;
+    let last, shown = 0;
+    p.tasks.forEach(t => {
+      if (d && !showsOn(t, d)) return;
+      shown++;
+      if (t.section !== last) {
+        last = t.section;
+        const h = document.createElement("h2"); h.className = "sec"; h.textContent = t.section || "Tasks"; list.appendChild(h);
+      }
+      const row = document.createElement("div");
+      row.className = "arow" + (removed.has(t) ? " gone" : "") + (added.has(t) ? " new" : "");
+      row.innerHTML = `<div class="txt"><div class="t"></div><span class="chip"></span></div><button type="button" class="del"></button>`;
+      row.querySelector(".t").textContent = t.text;
+      row.querySelector(".chip").textContent = (added.has(t) ? "New · " : "") + whenText(t);
+      const b = row.querySelector(".del");
+      b.textContent = removed.has(t) ? "Undo" : "Delete";
+      b.setAttribute("aria-label", (removed.has(t) ? "Undo delete: " : "Delete: ") + t.text);
+      b.onclick = () => {
+        if (added.has(t)) { p.tasks.splice(p.tasks.indexOf(t), 1); added.delete(t); }
+        else removed.has(t) ? removed.delete(t) : removed.add(t);
+        render();
+      };
+      list.appendChild(row);
+    });
+    if (!shown) list.innerHTML = '<p class="muted">No tasks show on that date.</p>';
+    updateDirty();
+  }
+
+  $("aDate").onchange = e => { filterDate = e.target.value; render(); };
+  $("showAll").onclick = () => { filterDate = ""; $("aDate").value = ""; render(); };
+  $("cleanup").onclick = () => {
+    const today = keyOf(new Date());
+    data.people.forEach(p => p.tasks.forEach(t => { if (t.date && t.date < today && !added.has(t)) removed.add(t); }));
+    render();
+  };
+
+  $("addBtn").onclick = () => {
+    const text = $("aText").value.trim();
+    const section = $("aSection").value.trim() || "Extras";
+    const when = document.querySelector('input[name=aWhen]:checked').value;
+    const t = { section, text };
+    if (!text) { $("addMsg").className = "msg"; $("addMsg").textContent = "Type the task first."; return; }
+    if (when === "once") {
+      if (!$("aOnce").value) { $("addMsg").className = "msg"; $("addMsg").textContent = "Pick the date."; return; }
+      t.date = $("aOnce").value;
+    } else {
+      if (when === "weeks") {
+        const w = [...document.querySelectorAll(".wk:checked")].map(x => +x.value);
+        if (!w.length) { $("addMsg").className = "msg"; $("addMsg").textContent = "Tick at least one week."; return; }
+        t.week = w;
+      }
+      const m = [...document.querySelectorAll(".mo:checked")].map(x => +x.value);
+      if (m.length && m.length < 12) t.months = m;
+    }
+    const p = person();
+    let idx = -1;
+    p.tasks.forEach((x, i) => { if (x.section === section) idx = i; });
+    if (idx >= 0) p.tasks.splice(idx + 1, 0, t);
+    else if (t.date) p.tasks.unshift(t);
+    else p.tasks.push(t);
+    added.add(t);
+    $("aText").value = "";
+    $("addMsg").className = "msg ok"; $("addMsg").textContent = "Added. Tap Save to app to send it to the phones.";
+    render();
+  };
+
+  $("saveBtn").onclick = async () => {
+    $("saveBtn").disabled = true; $("saveMsg").className = "msg"; $("saveMsg").textContent = "Saving…";
+    const out = { config: data.config, people: data.people.map(p => ({ ...p, tasks: p.tasks.filter(t => !removed.has(t)) })) };
+    try {
+      await backend.save(out);
+      data = out; removed = new Set(); added = new Set();
+      $("saveMsg").className = "msg ok"; $("saveMsg").textContent = "Saved. Phones get the new list next time the app opens.";
+      render();
+    } catch (e) {
+      $("saveMsg").textContent = e.message || String(e); updateDirty();
+    }
+  };
+
+  if (saved.token && backend.autoLogin) login();
+}
+
+const b64enc = s => btoa(unescape(encodeURIComponent(s)));
+const b64dec = s => decodeURIComponent(escape(atob(s.replace(/\n/g, ""))));
+let ghRepo = "", ghToken = "", ghSha = "";
+const ghUrl = () => `https://api.github.com/repos/${ghRepo}/contents/tasks.json`;
+const ghHeaders = () => ({ Authorization: `Bearer ${ghToken}`, Accept: "application/vnd.github+json" });
+startAdmin({
+  autoLogin: true,
+  defaultRepo() {
+    const h = location.hostname;
+    if (!h.endsWith(".github.io")) return "";
+    const owner = h.split(".")[0], seg = location.pathname.split("/").filter(Boolean)[0];
+    return owner + "/" + (seg && !seg.includes(".") ? seg : h);
+  },
+  loadLogin() { try { return JSON.parse(localStorage.getItem("adminLogin")) || {}; } catch { return {}; } },
+  saveLogin(v) { try { localStorage.setItem("adminLogin", JSON.stringify(v)); } catch {} },
+  async load(repo, token) {
+    if (!repo || !token) throw new Error("Enter the repository and your GitHub key.");
+    ghRepo = repo; ghToken = token;
+    let r;
+    try { r = await fetch(ghUrl(), { headers: ghHeaders(), cache: "no-store" }); }
+    catch { throw new Error("Couldn't reach GitHub. Check your internet connection."); }
+    if (r.status === 401) throw new Error("That GitHub key wasn't accepted. Check it hasn't expired.");
+    if (r.status === 404) throw new Error("Couldn't find tasks.json in that repository. Check the name, and that the key has access to it.");
+    if (!r.ok) throw new Error("GitHub returned an error (" + r.status + "). Try again.");
+    const j = await r.json(); ghSha = j.sha;
+    return JSON.parse(b64dec(j.content));
+  },
+  async save(data) {
+    const r = await fetch(ghUrl(), { method: "PUT", headers: ghHeaders(), body: JSON.stringify({
+      message: "Update tasks from admin page", content: b64enc(JSON.stringify(data, null, 1) + "\n"), sha: ghSha }) });
+    if (r.status === 403 || r.status === 401) throw new Error("This key can read but not save. Give it Contents: Read and write.");
+    if (r.status === 409) throw new Error("The list changed somewhere else. Log out and in again, then redo your changes.");
+    if (!r.ok) throw new Error("Saving failed (" + r.status + "). Try again.");
+    ghSha = (await r.json()).content.sha;
+  },
+});
+</script>
+</body>
+</html>
